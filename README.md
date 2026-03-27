@@ -1,6 +1,6 @@
-﻿# CoreClaw Store
+﻿# CoreClaw Prototype
 
-CoreClaw Store - 网络爬虫和自动化工具市场
+CoreClaw - 网络爬虫和自动化工具市场
 
 ## 简介
 
