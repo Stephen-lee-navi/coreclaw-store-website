@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CafeScraper Workers | Cloud Automation for Web Data</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-neutral-text: #1f2123;
+            --color-neutral-text-muted: #3d3f43;
+            --color-neutral-text-subtle: #6d7178;
+            --color-neutral-text-on-primary: #ffffff;
+            --color-neutral-background: #ffffff;
+            --color-neutral-background-muted: #f9f9fa;
+            --color-neutral-background-subtle: #f4f4f5;
+            --color-neutral-border: #d2d3d6;
+            --color-neutral-separator-subtle: #e4e5e6;
+            --color-primary-action: #1672eb;
+            --color-primary-action-hover: #5290f9;
+            --color-primary-background: #ecf1ff;
+            --color-primary-black-action: #1f2123;
+            --color-primary-black-action-hover: #3d3f43;
+            --shadow-1: 1px 2px 2.5px -2.5px rgba(8, 8, 10, 0.32), 0.4px 0.8px 1px -1.2px rgba(8, 8, 10, 0.32), 0px 0.5px 1.5px 0px rgba(8, 8, 10, 0.32);
+            --shadow-2: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21), 1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21), 0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21), 0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 10px;
+            scroll-padding-top: 8rem;
+        }
+
+        body {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-neutral-background);
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary-action);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary-black-action);
+            color: var(--color-neutral-text-on-primary);
+            box-shadow: var(--shadow-1);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-black-action-hover);
+            box-shadow: var(--shadow-2);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-primary-black-action-hover);
+            text-decoration: none;
+        }
+
+        .btn-google {
+            background: #4285f4;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-google:hover {
+            background: #3367d6;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 12rem 2.4rem 6rem;
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.8rem;
+            line-height: 6.8rem;
+            font-weight: 400;
+            margin-bottom: 2.4rem;
+            color: var(--color-neutral-text);
+        }
+
+        .hero-subtitle {
+            font-size: 2.4rem;
+            line-height: 3.6rem;
+            color: var(--color-neutral-text-muted);
+            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-note {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Section */
+        .section {
+            padding: 6rem 2.4rem;
+        }
+
+        .section-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 4.8rem;
+            line-height: 5.8rem;
+            font-weight: 400;
+            margin-bottom: 1.6rem;
+        }
+
+        .section-subtitle {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* Steps Section */
+        .steps-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .step-number {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .step-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .step-card p {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Monetize Section */
+        .monetize-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .monetize-section h2 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .monetize-section p {
+            font-size: 2rem;
+            line-height: 3rem;
+            max-width: 80rem;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Tech Stack Section */
+        .tech-section {
+            background: var(--color-neutral-background);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .tech-icon {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #a8b8f0 0%, #b8a8d8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin: 0 auto 2rem;
+        }
+
+        .tech-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-card p {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.4rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            padding: 2.4rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .feature-item h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+        }
+
+        .feature-item p {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.2rem;
+        }
+
+        /* Store Section */
+        .store-section {
+            background: var(--color-neutral-background);
+            text-align: center;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--color-neutral-text-muted);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 6rem 2.4rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 3.6rem;
+            color: white;
+            margin-bottom: 1.6rem;
+        }
+
+        .cta-section p {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-neutral-background-muted);
+            padding: 4rem 2.4rem;
+            text-align: center;
+            border-top: 1px solid var(--color-neutral-border);
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.6rem;
+                line-height: 4.6rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+                line-height: 4.2rem;
+            }
+
+            .steps-grid,
+            .tech-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">CafeScraper</a>
+            <nav class="nav">
+                <a href="#">Store</a>
+                <a href="#">Workers</a>
+                <a href="#" class="btn btn-secondary">Login</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>CafeScraper Workers</h1>
+            <p class="hero-subtitle">CafeScraper Workers provides ready-made web scrapers that allow you to scrape any website without coding. It is a web data automation engine that powers your AI and business operations. Run it efficiently in the cloud or locally to scrape websites, process data, and integrate APIs—all without managing any infrastructure.</p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-secondary">Browse Workers</a>
+                <a href="#" class="btn btn-google">Sign up with Google</a>
+            </div>
+            <p class="hero-note">No credit card required.</p>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="section steps-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">Scrape Any Website, No Code Required.</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Choose Your Scraper</h3>
+                    <p>Browse the CafeScraper Store and select the specialized tool that fits your business needs.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Configure Your Task</h3>
+                    <p>Set your parameters—target pages, keywords, geolocation, or budget limits—with ease.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Run and Export Data</h3>
+                    <p>Execute with a single click and export structured CSV/JSON data directly into your workflow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monetize Section -->
+    <section class="section monetize-section">
+        <div class="section-inner">
+            <h2>Publish Workers and Earn Recurring Revenue</h2>
+            <p>Join the community of developers on the CafeScraper by publishing and maintaining high-quality Workers. You focus on building the scraping scripts—we provide the infrastructure and handle all billing, sales, and invoicing, ensuring every line of code generates value for you.</p>
+            <a href="#" class="btn btn-white">Share Your First Worker</a>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="section tech-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">The Complete Data Scraping Stack</h2>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">🌐</div>
+                    <h3>Proxies</h3>
+                    <p>Built-in rotating residential and datacenter proxies covering 190+ countries. Automatically bypass complex anti-scraping measures and CAPTCHAs.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">🔗</div>
+                    <h3>Integrations</h3>
+                    <p>Seamlessly integrate CafeScraper Workers with your existing tools, APIs, and cloud services. Trigger automated workflows and stream data in real-time.</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">💾</div>
+                    <h3>Storage</h3>
+                    <p>Secure and scalable cloud data storage. Store any file type—from images and key-value pairs to structured datasets—your data is never lost.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">More Than Just Scraping</h2>
+                <p class="section-subtitle">Extract web data with comprehensive, scalable, compliant CafeScraper</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>Long-running Jobs</h4>
+                    <p>Whether a task takes minutes or hours, our Workers run reliably in the cloud without timeouts or interruptions.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Visual inputs</h4>
+                    <p>CafeScraper automatically generates intuitive control panels for every Worker. Even users with zero coding experience can execute complex scrapes.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Transparent Billing</h4>
+                    <p>Estimate costs before running, set budget caps, and track every cent via detailed invoicing.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Flexible Memory and CPU</h4>
+                    <p>Assign the exact RAM your Worker needs; CPU power scales automatically to match your configuration.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Multiple Data Formats</h4>
+                    <p>Get your data in JSON or CSV format to perfectly match your needs.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>24/7 Support</h4>
+                    <p>Not sure which Worker to choose? Our experts are available around the clock to advise and assist.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Section -->
+    <section class="section store-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">CafeScraper store</h2>
+            </div>
+            <a href="/pages/" class="btn btn-primary">Browse Store</a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">Frequently asked questions</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What are Workers?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">Workers are serverless cloud automation programs. They take standard JSON inputs to independently execute complex web scraping, data processing, or AI tasks, and return results as structured data.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I use CafeScraper Workers?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">Simply sign up for CafeScraper account, then choose a ready-made solution from the Store that fits your business needs (such as Amazon, Google Search, or YouTube). Set your input, click "Start," and wait for your data to arrive.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What data formats do Workers support?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">Workers support multiple formats to ensure a seamless fit with your workflow:<br>JSON: Supports complex nested objects, preserving the logical hierarchy of the original webpage.<br>CSV: Automatically converts scraping results into clean, row-and-column spreadsheets.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do I need to manage servers myself?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">No. The CafeScraper platform handles all the underlying infrastructure for you, including server management, smart proxy rotation to bypass anti-bot protections, and secure data storage.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Can developers earn money from the Workers they build?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">Yes. Developers can not only host their code on CafeScraper for personal use, but also publish it to the CafeScraper Store and set their own pricing. When other users run your Workers, you earn a recurring revenue share.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="section-inner">
+            <h2>Start Your First Worker</h2>
+            <p>Automate web data collection in minutes.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-white">Start free trial</a>
+                <a href="#" class="btn btn-outline-white">Browse Workers</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 CafeScraper. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
