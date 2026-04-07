@@ -50,10 +50,6 @@
             box-shadow: 4px 0 20px rgba(0,0,0,0.1);
         }
 
-        .sidebar:hover {
-            transform: translateX(0);
-        }
-
         /* Sidebar trigger area */
         .sidebar-trigger {
             position: fixed;
@@ -62,6 +58,16 @@
             width: 20px;
             height: 100vh;
             z-index: 99;
+        }
+
+        .sidebar-trigger:hover + .sidebar,
+        .sidebar:hover {
+            transform: translateX(0);
+        }
+
+        .sidebar-trigger:hover ~ .main,
+        .sidebar:hover ~ .main {
+            margin-left: 28rem;
         }
 
         .sidebar-header {
@@ -151,10 +157,6 @@
             margin-left: 0;
             min-height: 100vh;
             transition: margin-left 0.3s ease;
-        }
-
-        .sidebar:hover ~ .main {
-            margin-left: 28rem;
         }
 
         /* Header */
