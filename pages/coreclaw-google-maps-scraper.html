@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Maps Scraper | Extract Business Data at Scale - CoreClaw</title>
+    <meta name="description" content="Extract business leads, reviews, contacts, and more from Google Maps with CoreClaw. No coding required. Start your free trial today and get accurate, real-time data for lead generation, market research, and competitive analysis.">
+    <link rel="icon" type="image/png" href="../img/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-neutral-text: #1f2123;
+            --color-neutral-text-muted: #3d3f43;
+            --color-neutral-text-subtle: #6d7178;
+            --color-neutral-text-on-primary: #ffffff;
+            --color-neutral-background: #ffffff;
+            --color-neutral-background-muted: #f9f9fa;
+            --color-neutral-background-subtle: #f4f4f5;
+            --color-neutral-border: #d2d3d6;
+            --color-neutral-separator-subtle: #e4e5e6;
+            --color-primary-action: #1672eb;
+            --color-primary-action-hover: #5290f9;
+            --color-primary-background: #ecf1ff;
+            --color-primary-black-action: #1f2123;
+            --color-primary-black-action-hover: #3d3f43;
+            --shadow-1: 1px 2px 2.5px -2.5px rgba(8, 8, 10, 0.32), 0.4px 0.8px 1px -1.2px rgba(8, 8, 10, 0.32), 0px 0.5px 1.5px 0px rgba(8, 8, 10, 0.32);
+            --shadow-2: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21), 1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21), 0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21), 0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 10px;
+            scroll-padding-top: 8rem;
+        }
+
+        body {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #a8b5e0 0%, #b8a8d8 100%);
+            color: var(--color-neutral-text);
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 28rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2.4rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-trigger {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 100vh;
+            z-index: 999;
+        }
+
+        .sidebar-trigger:hover + .sidebar,
+        .sidebar:hover {
+            transform: translateX(0);
+        }
+
+        .sidebar-trigger:hover ~ .main,
+        .sidebar:hover ~ .main {
+            margin-left: 28rem;
+        }
+
+        .sidebar-header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 3.6rem;
+            height: 3.6rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .nav-section {
+            margin-bottom: 2.4rem;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.2rem;
+            padding-left: 1rem;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.4rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            color: #555;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .nav-link.active {
+            background: #f0f0f0;
+            color: #1a1a1a;
+        }
+
+        .nav-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 0;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-neutral-background);
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-header {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary-action);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #4285f4;
+            color: white;
+            box-shadow: var(--shadow-1);
+        }
+
+        .btn-primary:hover {
+            background: #3367d6;
+            box-shadow: var(--shadow-2);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-primary-black-action-hover);
+            text-decoration: none;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            padding: 14rem 2.4rem 8rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.2rem;
+            line-height: 6.2rem;
+            font-weight: 700;
+            margin-bottom: 2.4rem;
+            color: white;
+        }
+
+        .hero-subtitle {
+            font-size: 2.2rem;
+            line-height: 3.4rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-note {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Section */
+        .section {
+            padding: 8rem 2.4rem;
+        }
+
+        .section-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 4.2rem;
+            line-height: 5.2rem;
+            font-weight: 600;
+            margin-bottom: 1.6rem;
+        }
+
+        .section-subtitle {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+            max-width: 80rem;
+            margin: 0 auto;
+        }
+
+        /* What is Section */
+        .whatis-section {
+            background: var(--color-neutral-background);
+        }
+
+        .whatis-content {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .whatis-content p {
+            font-size: 1.9rem;
+            line-height: 3.2rem;
+            color: var(--color-neutral-text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .whatis-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.6rem;
+            margin-top: 3rem;
+        }
+
+        .whatis-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            font-size: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .whatis-feature::before {
+            content: '✓';
+            width: 2.4rem;
+            height: 2.4rem;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.4rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid var(--color-neutral-border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-2);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+        }
+
+        .feature-card p {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Data Fields Section */
+        .datafields-section {
+            background: var(--color-neutral-background);
+        }
+
+        .datafields-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.4rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .datafield-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .datafield-card h3 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--color-neutral-text);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .datafield-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .datafield-card li {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            padding: 0.6rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .datafield-card li::before {
+            content: '•';
+            color: #4285f4;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Who It's For Section */
+        .whoitsfor-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .whoitsfor-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.4rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .whoitsfor-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .whoitsfor-card .icon {
+            font-size: 3.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .whoitsfor-card h3 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+        }
+
+        .whoitsfor-card p {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            background: var(--color-neutral-background);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.4rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .benefit-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--color-neutral-border);
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .benefit-number {
+            width: 5rem;
+            height: 5rem;
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .benefit-content h3 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--color-neutral-text);
+        }
+
+        .benefit-content p {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Use Cases Section */
+        .usecases-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .usecase-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 2.4rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .usecase-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .usecase-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .usecase-card p {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .usecase-example {
+            background: linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid #34a853;
+        }
+
+        .usecase-example strong {
+            color: #2e7d32;
+        }
+
+        .usecase-example p {
+            margin: 0;
+            color: var(--color-neutral-text);
+        }
+
+        /* How It Works Section */
+        .howitworks-section {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            color: white;
+        }
+
+        .howitworks-section .section-title {
+            color: white;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.4rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .step-number {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            background: white;
+            color: #4285f4;
+            font-size: 2.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .step-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: white;
+        }
+
+        .step-card p {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 2.4rem;
+        }
+
+        /* Why Choose Section */
+        .whychoose-section {
+            background: var(--color-neutral-background);
+        }
+
+        .whychoose-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.4rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .whychoose-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .whychoose-card h3 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .whychoose-card p {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            border: 1px solid var(--color-neutral-border);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-2);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #4285f4;
+            position: relative;
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4285f4;
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .pricing-icon {
+            font-size: 3.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+        }
+
+        .pricing-records {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #4285f4;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-muted);
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--color-neutral-border);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #34a853;
+            font-weight: 700;
+        }
+
+        .pricing-features li.missing::before {
+            content: '✗';
+            color: #ea4335;
+        }
+
+        .pricing-price {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            margin-bottom: 2rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background: var(--color-neutral-background);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.4rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1.7rem;
+            color: var(--color-neutral-text);
+            line-height: 2.8rem;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-neutral-text);
+        }
+
+        .testimonial-role {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.6rem;
+            line-height: 2.6rem;
+            color: var(--color-neutral-text-muted);
+            display: none;
+        }
+
+        .faq-answer strong {
+            color: var(--color-neutral-text);
+        }
+
+        .faq-answer ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .faq-answer li {
+            margin: 0.5rem 0;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+            padding: 8rem 2.4rem;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-size: 4.2rem;
+            color: white;
+            margin-bottom: 1.6rem;
+        }
+
+        .cta-section p {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-neutral-background-muted);
+            padding: 4rem 2.4rem;
+            text-align: center;
+            border-top: 1px solid var(--color-neutral-border);
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .features-grid,
+            .datafields-grid,
+            .whoitsfor-grid,
+            .steps-grid,
+            .whychoose-grid,
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .benefits-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .whatis-features {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                width: 26rem;
+            }
+
+            .sidebar:hover ~ .main {
+                margin-left: 26rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.6rem;
+                line-height: 4.6rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+                line-height: 4.2rem;
+            }
+
+            .features-grid,
+            .datafields-grid,
+            .whoitsfor-grid,
+            .steps-grid,
+            .whychoose-grid,
+            .pricing-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta,
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar trigger area -->
+        <div class="sidebar-trigger"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">
+                    <div class="logo-icon">C</div>
+                    CoreClaw
+                </a>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">导航</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <span class="nav-icon">🏠</span>
+                                首页
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <span class="nav-icon">📄</span>
+                                所有页面
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">数据抓取</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/pages/google-maps-scraper.html" class="nav-link active">
+                                <span class="nav-icon">🗺️</span>
+                                Google Maps
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/amazon-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">🛒</span>
+                                Amazon
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/tiktok-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">📱</span>
+                                TikTok
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/instagram-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">📷</span>
+                                Instagram
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/youtube-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">🎬</span>
+                                YouTube
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">云端服务</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/pages/workers.html" class="nav-link">
+                                <span class="nav-icon">⚡</span>
+                                Workers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/dataset.html" class="nav-link">
+                                <span class="nav-icon">📊</span>
+                                数据集
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-inner">
+                    <a href="/" class="logo-header">CoreClaw</a>
+                    <nav class="nav">
+                        <a href="/">Store</a>
+                        <a href="/pages/workers.html">Workers</a>
+                        <a href="#" class="btn btn-secondary">Login</a>
+                        <a href="#" class="btn btn-primary">Sign Up</a>
+                    </nav>
+                </div>
+            </header>
+
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-inner">
+                    <h1>Google Maps Scraper: Extract Business Data at Scale</h1>
+                    <p class="hero-subtitle">Extract business leads, reviews, contacts, and more from Google Maps — no coding required. Get accurate, real-time data for lead generation, market research, and competitive analysis.</p>
+                    <div class="hero-cta">
+                        <a href="#" class="btn btn-white">Start Free Trial</a>
+                        <a href="#" class="btn btn-outline-white">View Pricing</a>
+                    </div>
+                    <p class="hero-note">✓ No credit card required ✓ 500 free records</p>
+                </div>
+            </section>
+
+            <!-- What is Section -->
+            <section class="section whatis-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">What is Google Maps Scraper?</h2>
+                    </div>
+                    <div class="whatis-content">
+                        <p>Google Maps Scraper is a powerful data extraction tool that allows you to collect business information from Google Maps at scale. Whether you need business names, addresses, phone numbers, websites, reviews, ratings, or contact details — CoreClaw delivers accurate, structured data in minutes.</p>
+                        <p>Unlike manual data collection or limited Google Places API, CoreClaw provides unlimited access to Google Maps data without API keys, rate limits, or coding requirements.</p>
+                        <div class="whatis-features">
+                            <div class="whatis-feature">Extract data from any location or business category</div>
+                            <div class="whatis-feature">Get real-time, up-to-date information</div>
+                            <div class="whatis-feature">Export data in multiple formats (CSV, Excel, JSON, API)</div>
+                            <div class="whatis-feature">No technical skills required</div>
+                            <div class="whatis-feature">Scale from 100 to 1,000,000+ records</div>
+                            <div class="whatis-feature">Built-in data validation and enrichment</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="section features-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Key Features</h2>
+                        <p class="section-subtitle">Everything you need to extract and use Google Maps data effectively</p>
+                    </div>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🚀</div>
+                            <h3>No-Code Extraction</h3>
+                            <p>Extract Google Maps data without writing a single line of code. Our intuitive interface lets anyone collect business data in minutes.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Real-Time Data</h3>
+                            <p>Get fresh, up-to-date business information directly from Google Maps. No stale databases — every extraction pulls the latest data.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>30+ Data Fields</h3>
+                            <p>Extract comprehensive business data including names, addresses, phone numbers, websites, emails, reviews, ratings, and more.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔄</div>
+                            <h3>Contact Enrichment</h3>
+                            <p>Go beyond basic Google Maps data. Automatically extract emails, social media links, and additional contact information.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📁</div>
+                            <h3>Flexible Export</h3>
+                            <p>Export your data in CSV, Excel, JSON, or connect directly via API. Integrate with your CRM, marketing tools, or data pipeline.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🛡️</div>
+                            <h3>Enterprise Reliability</h3>
+                            <p>Built-in proxy rotation, CAPTCHA handling, and anti-blocking technology ensure stable, uninterrupted data extraction at any scale.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔗</div>
+                            <h3>API & Integrations</h3>
+                            <p>Connect CoreClaw to your workflow with our REST API. Integrate with Zapier, Make, HubSpot, Salesforce, and more.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📈</div>
+                            <h3>Batch Processing</h3>
+                            <p>Extract data for multiple locations, categories, or keywords in a single run. Perfect for large-scale lead generation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Fields Section -->
+            <section class="section datafields-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Data Fields You Can Extract</h2>
+                        <p class="section-subtitle">CoreClaw extracts 30+ data points from each Google Maps listing</p>
+                    </div>
+                    <div class="datafields-grid">
+                        <div class="datafield-card">
+                            <h3>🏢 Business Information</h3>
+                            <ul>
+                                <li>Business Name</li>
+                                <li>Address</li>
+                                <li>City, State, ZIP</li>
+                                <li>Country</li>
+                                <li>Business Category</li>
+                                <li>Latitude & Longitude</li>
+                                <li>Google Maps URL</li>
+                                <li>Google Place ID</li>
+                            </ul>
+                        </div>
+                        <div class="datafield-card">
+                            <h3>📞 Contact Details</h3>
+                            <ul>
+                                <li>Phone Number</li>
+                                <li>Website URL</li>
+                                <li>Email Address</li>
+                                <li>Social Media Links</li>
+                                <li>Contact Form URL</li>
+                            </ul>
+                        </div>
+                        <div class="datafield-card">
+                            <h3>⭐ Reviews & Ratings</h3>
+                            <ul>
+                                <li>Overall Rating</li>
+                                <li>Total Reviews</li>
+                                <li>Review Snippets</li>
+                                <li>Reviewer Names</li>
+                                <li>Review Dates</li>
+                                <li>Response Status</li>
+                            </ul>
+                        </div>
+                        <div class="datafield-card">
+                            <h3>🕐 Operational Data</h3>
+                            <ul>
+                                <li>Opening Hours</li>
+                                <li>Popular Times</li>
+                                <li>Business Status</li>
+                                <li>Claimed Status</li>
+                                <li>Price Range</li>
+                            </ul>
+                        </div>
+                        <div class="datafield-card">
+                            <h3>📸 Additional Data</h3>
+                            <ul>
+                                <li>Photos URLs</li>
+                                <li>Google Place ID</li>
+                                <li>Plus Code</li>
+                                <li>Service Options</li>
+                            </ul>
+                        </div>
+                        <div class="datafield-card">
+                            <h3>✨ Enriched Data</h3>
+                            <ul>
+                                <li>Email Addresses</li>
+                                <li>Social Media Links</li>
+                                <li>Additional Contacts</li>
+                                <li>Website Validation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Who It's For Section -->
+            <section class="section whoitsfor-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Who It's For</h2>
+                        <p class="section-subtitle">Built for teams that need reliable business data</p>
+                    </div>
+                    <div class="whoitsfor-grid">
+                        <div class="whoitsfor-card">
+                            <div class="icon">🧑‍💼</div>
+                            <h3>Sales & Lead Generation Teams</h3>
+                            <p>Build targeted prospect lists with verified business contact information. Extract leads by industry, location, and business category.</p>
+                        </div>
+                        <div class="whoitsfor-card">
+                            <div class="icon">📊</div>
+                            <h3>Market Researchers</h3>
+                            <p>Analyze market trends, competitive landscapes, and business distributions across regions. Gather data for reports and strategic decisions.</p>
+                        </div>
+                        <div class="whoitsfor-card">
+                            <div class="icon">🏢</div>
+                            <h3>Business Owners & Entrepreneurs</h3>
+                            <p>Research competitors, identify market opportunities, and find potential partners or suppliers in your area.</p>
+                        </div>
+                        <div class="whoitsfor-card">
+                            <div class="icon">💻</div>
+                            <h3>Developers & Data Teams</h3>
+                            <p>Integrate Google Maps data into your applications, databases, and analytics pipelines via our robust API.</p>
+                        </div>
+                        <div class="whoitsfor-card">
+                            <div class="icon">📈</div>
+                            <h3>Marketing Agencies</h3>
+                            <p>Enrich client databases, build custom audiences, and power location-based marketing campaigns with accurate business data.</p>
+                        </div>
+                        <div class="whoitsfor-card">
+                            <div class="icon">🔬</div>
+                            <h3>Academic Researchers</h3>
+                            <p>Collect large-scale geographic and business data for academic studies, urban planning, and economic research.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Benefits Section -->
+            <section class="section benefits-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Key Benefits</h2>
+                        <p class="section-subtitle">Why teams choose CoreClaw for Google Maps data extraction</p>
+                    </div>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-number">1</div>
+                            <div class="benefit-content">
+                                <h3>Save Time & Resources</h3>
+                                <p>Replace weeks of manual data collection with automated extraction. Get thousands of records in minutes, not days.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-number">2</div>
+                            <div class="benefit-content">
+                                <h3>Access Accurate, Real-Time Data</h3>
+                                <p>Every extraction pulls fresh data directly from Google Maps. No outdated databases, no stale information.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-number">3</div>
+                            <div class="benefit-content">
+                                <h3>Scale Without Limits</h3>
+                                <p>Extract 100 records or 1,000,000+ — CoreClaw handles any scale with enterprise-grade infrastructure.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-number">4</div>
+                            <div class="benefit-content">
+                                <h3>No Technical Skills Required</h3>
+                                <p>Our no-code interface makes data extraction accessible to everyone. No Python, no APIs, no coding.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-number">5</div>
+                            <div class="benefit-content">
+                                <h3>Enrich with Contact Data</h3>
+                                <p>Go beyond Google Maps. Automatically extract emails, social media profiles, and additional contacts from business websites.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-number">6</div>
+                            <div class="benefit-content">
+                                <h3>Integrate with Your Workflow</h3>
+                                <p>Export to CSV, Excel, or JSON. Connect via API. Integrate with your CRM, marketing tools, or data pipeline.</p>
+                            </div>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-number">7</div>
+                            <div class="benefit-content">
+                                <h3>Stay Compliant</h3>
+                                <p>Extract publicly available business data in compliance with data protection regulations. We provide guidance on ethical data use.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Use Cases Section -->
+            <section class="section usecases-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Use Cases</h2>
+                        <p class="section-subtitle">Real-world applications for Google Maps data extraction</p>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>📧 Lead Generation & Prospecting</h3>
+                        <p>Build targeted B2B lead lists by extracting business contact information from Google Maps. Filter by industry, location, and business category to find your ideal customers.</p>
+                        <div class="usecase-example">
+                            <p><strong>Example:</strong> A marketing agency extracts 5,000 local restaurants with email addresses to promote their services.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>🔍 Competitive Analysis</h3>
+                        <p>Monitor competitor presence, ratings, and reviews across locations. Track market share and identify competitive gaps.</p>
+                        <div class="usecase-example">
+                            <p><strong>Example:</strong> A retail chain analyzes competitor store locations and customer reviews to inform expansion strategy.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>📊 Market Research & Analysis</h3>
+                        <p>Analyze business distributions, market density, and industry trends across geographic regions. Support strategic decisions with data.</p>
+                        <div class="usecase-example">
+                            <p><strong>Example:</strong> A real estate developer studies restaurant and retail density to identify prime commercial locations.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>🤝 Business Development</h3>
+                        <p>Find potential partners, suppliers, or distributors in specific regions or industries. Enrich your CRM with verified business data.</p>
+                        <div class="usecase-example">
+                            <p><strong>Example:</strong> A wholesale supplier identifies independent retailers in a target region for partnership outreach.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>📱 Location-Based Marketing</h3>
+                        <p>Build custom audiences for location-based advertising. Target businesses in specific areas with tailored marketing campaigns.</p>
+                        <div class="usecase-example">
+                            <p><strong>Example:</strong> A SaaS company targets businesses in tech hubs with location-specific advertising campaigns.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>🎓 Academic & Urban Research</h3>
+                        <p>Collect large-scale business and geographic data for academic studies, urban planning, and economic research.</p>
+                        <div class="usecase-example">
+                            <p><strong>Example:</strong> A university researcher studies the relationship between business density and economic development across cities.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- How It Works Section -->
+            <section class="section howitworks-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">How It Works</h2>
+                        <p class="section-subtitle">Extract Google Maps data in 4 simple steps</p>
+                    </div>
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h3>Define Your Search</h3>
+                            <p>Enter your target location, business category, or keywords. Specify the data fields you need.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h3>Configure & Run</h3>
+                            <p>Set your extraction parameters (location radius, number of results, data enrichment options). Click "Start Extraction."</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h3>Monitor Progress</h3>
+                            <p>Track extraction progress in real-time. View sample data as it's collected.</p>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <h3>Export & Integrate</h3>
+                            <p>Download your data in CSV, Excel, or JSON format. Or connect directly via API to integrate with your systems.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Choose Section -->
+            <section class="section whychoose-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Why Choose CoreClaw?</h2>
+                        <p class="section-subtitle">The CoreClaw difference</p>
+                    </div>
+                    <div class="whychoose-grid">
+                        <div class="whychoose-card">
+                            <h3>✅ Data Quality Guarantee</h3>
+                            <p>Unlike competitors who provide raw, unverified data, CoreClaw validates and cleans every record. Our multi-layer verification ensures you get accurate, actionable data.</p>
+                        </div>
+                        <div class="whychoose-card">
+                            <h3>✅ Transparent, Simple Pricing</h3>
+                            <p>No hidden fees. No complex credit systems. Choose a plan that fits your needs and know exactly what you'll pay.</p>
+                        </div>
+                        <div class="whychoose-card">
+                            <h3>✅ Enterprise-Grade Infrastructure</h3>
+                            <p>Built for scale. Our distributed infrastructure, proxy networks, and anti-blocking technology ensure reliable extraction at any volume.</p>
+                        </div>
+                        <div class="whychoose-card">
+                            <h3>✅ Superior Customer Support</h3>
+                            <p>Dedicated support team, comprehensive documentation, and responsive assistance. We're here to help you succeed.</p>
+                        </div>
+                        <div class="whychoose-card">
+                            <h3>✅ Developer-Friendly API</h3>
+                            <p>RESTful API with comprehensive documentation, SDKs for popular languages, and webhook support for real-time data delivery.</p>
+                        </div>
+                        <div class="whychoose-card">
+                            <h3>✅ Compliance & Ethics</h3>
+                            <p>We provide clear guidance on ethical data use and compliance with data protection regulations. Extract data responsibly.</p>
+                        </div>
+                        <div class="whychoose-card">
+                            <h3>✅ Proven Track Record</h3>
+                            <p>Trusted by 10,000+ businesses worldwide. From startups to Fortune 500 companies, organizations rely on CoreClaw for their data needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pricing Section -->
+            <section class="section pricing-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Simple, Transparent Pricing</h2>
+                        <p class="section-subtitle">Choose the plan that fits your needs</p>
+                    </div>
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <div class="pricing-icon">🆓</div>
+                            <h3>Free Trial</h3>
+                            <div class="pricing-records">500 records/month</div>
+                            <ul class="pricing-features">
+                                <li>All data fields</li>
+                                <li>CSV/Excel export</li>
+                                <li>Email support</li>
+                                <li class="missing">Email enrichment</li>
+                                <li class="missing">API access</li>
+                            </ul>
+                            <div class="pricing-price">Free</div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
+                        </div>
+                        <div class="pricing-card">
+                            <div class="pricing-icon">💼</div>
+                            <h3>Starter</h3>
+                            <div class="pricing-records">10,000 records/month</div>
+                            <ul class="pricing-features">
+                                <li>All data fields</li>
+                                <li>Email enrichment</li>
+                                <li>API access</li>
+                                <li>Priority support</li>
+                                <li class="missing">Social enrichment</li>
+                            </ul>
+                            <div class="pricing-price">$49/mo</div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+                        </div>
+                        <div class="pricing-card featured">
+                            <div class="pricing-icon">🚀</div>
+                            <h3>Professional</h3>
+                            <div class="pricing-records">100,000 records/month</div>
+                            <ul class="pricing-features">
+                                <li>All data fields</li>
+                                <li>Email + social enrichment</li>
+                                <li>API + webhook access</li>
+                                <li>Dedicated support</li>
+                                <li>Custom integrations</li>
+                            </ul>
+                            <div class="pricing-price">$199/mo</div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+                        </div>
+                        <div class="pricing-card">
+                            <div class="pricing-icon">🏢</div>
+                            <h3>Enterprise</h3>
+                            <div class="pricing-records">Unlimited records</div>
+                            <ul class="pricing-features">
+                                <li>All features</li>
+                                <li>Custom data fields</li>
+                                <li>Dedicated infrastructure</li>
+                                <li>SLA guarantee</li>
+                                <li>Custom support</li>
+                            </ul>
+                            <div class="pricing-price">Contact Us</div>
+                            <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="section testimonials-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">What Our Customers Say</h2>
+                        <p class="section-subtitle">Trusted by 10,000+ businesses worldwide</p>
+                    </div>
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <blockquote>"CoreClaw saved us weeks of manual data collection. We extracted 50,000 business contacts in a single day."</blockquote>
+                            <div class="testimonial-author">Sarah Chen</div>
+                            <div class="testimonial-role">Marketing Director, TechFlow Solutions</div>
+                        </div>
+                        <div class="testimonial-card">
+                            <blockquote>"The data quality is exceptional. We've tried other scrapers, but CoreClaw's email enrichment and data validation make all the difference."</blockquote>
+                            <div class="testimonial-author">Michael Rodriguez</div>
+                            <div class="testimonial-role">Sales Manager, GrowthCo</div>
+                        </div>
+                        <div class="testimonial-card">
+                            <blockquote>"Their API integration was seamless. We now have automated, real-time business data flowing directly into our CRM."</blockquote>
+                            <div class="testimonial-author">Emily Watson</div>
+                            <div class="testimonial-role">Head of Data, Analytics Pro</div>
+                        </div>
+                        <div class="testimonial-card">
+                            <blockquote>"The customer support team went above and beyond to help us set up our extraction workflows. Highly recommended."</blockquote>
+                            <div class="testimonial-author">David Kim</div>
+                            <div class="testimonial-role">Founder, LocalBiz Insights</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="section faq-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Frequently Asked Questions</h2>
+                    </div>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Is it legal to scrape Google Maps?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, extracting publicly available business data from Google Maps is generally legal in most jurisdictions. The data displayed on Google Maps (business names, addresses, phone numbers, hours, etc.) is publicly accessible information.</p>
+                                <p>However, it's important to use the data responsibly, comply with data protection regulations (GDPR, CCPA), respect website terms of service, and avoid using data for spam or unsolicited marketing.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What data can I extract from Google Maps?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>CoreClaw extracts 30+ data points from each Google Maps listing, including:</p>
+                                <ul>
+                                    <li><strong>Business Information:</strong> Business name, address, phone number, website, business category, Google Maps URL, Google Place ID, latitude and longitude coordinates</li>
+                                    <li><strong>Reviews & Ratings:</strong> Overall rating, total review count, recent review snippets, reviewer names, review dates, business response status</li>
+                                    <li><strong>Operational Data:</strong> Opening hours, popular times, business status, claimed status, price range</li>
+                                    <li><strong>Enriched Data:</strong> Email addresses, social media links, additional contact information</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Do I need programming skills to use CoreClaw?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p><strong>No!</strong> CoreClaw is designed for users of all technical levels.</p>
+                                <p><strong>For non-technical users:</strong> Use our intuitive web interface with no coding required. Point-and-click data extraction and export to CSV, Excel, or JSON.</p>
+                                <p><strong>For developers:</strong> Use our REST API for programmatic access, SDKs available for Python, JavaScript, and more, webhook support for real-time data delivery.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How accurate and up-to-date is the data?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>CoreClaw provides <strong>real-time, highly accurate data</strong>:</p>
+                                <p><strong>Real-Time Extraction:</strong> Every extraction pulls fresh data directly from Google Maps. No stale databases or outdated information.</p>
+                                <p><strong>Data Validation:</strong> Multi-layer verification process, automatic data cleaning and formatting, invalid or incomplete records flagged for review.</p>
+                                <p><strong>Accuracy Metrics:</strong> 98%+ accuracy for business names, addresses, phone numbers; 95%+ accuracy for email enrichment.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What's the difference between free and paid plans?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <table style="width:100%; border-collapse: collapse; margin-top: 1rem;">
+                                    <tr style="border-bottom: 1px solid #ddd;">
+                                        <th style="text-align:left; padding: 10px;">Feature</th>
+                                        <th style="text-align:center; padding: 10px;">Free</th>
+                                        <th style="text-align:center; padding: 10px;">Paid</th>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #eee;">
+                                        <td style="padding: 10px;">Records/month</td>
+                                        <td style="text-align:center; padding: 10px;">500</td>
+                                        <td style="text-align:center; padding: 10px;">10K-100K+</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #eee;">
+                                        <td style="padding: 10px;">Email enrichment</td>
+                                        <td style="text-align:center; padding: 10px;">✗</td>
+                                        <td style="text-align:center; padding: 10px;">✓</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 10px;">API access</td>
+                                        <td style="text-align:center; padding: 10px;">✗</td>
+                                        <td style="text-align:center; padding: 10px;">✓</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Can I extract emails and contact information?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p><strong>Yes!</strong> CoreClaw's email enrichment feature extracts contact information from business websites.</p>
+                                <p><strong>How it works:</strong> We extract the business website URL from Google Maps, visit the website and identify contact information, extract emails and social media links, and add enriched data to your results.</p>
+                                <p><strong>Data extracted:</strong> Email addresses, social media profiles (Facebook, Instagram, LinkedIn, Twitter), contact form URLs, additional phone numbers.</p>
+                                <p><strong>Accuracy:</strong> 95%+ accuracy for email extraction with real-time validation.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How do I export and use the scraped data?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>CoreClaw offers flexible export and integration options:</p>
+                                <p><strong>Export Formats:</strong> CSV (compatible with Excel, Google Sheets), Excel (.xlsx), JSON (developer-friendly)</p>
+                                <p><strong>API Integration:</strong> REST API for programmatic access, SDKs for Python, JavaScript, Ruby, PHP, webhook support</p>
+                                <p><strong>Third-Party Integrations:</strong> Zapier, Make (Integromat), HubSpot, Salesforce, Google Sheets</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Will my IP get blocked? What about rate limits?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p><strong>No, your IP won't get blocked.</strong> CoreClaw uses enterprise-grade infrastructure:</p>
+                                <p><strong>Anti-Blocking Technology:</strong> Built-in proxy rotation with thousands of IPs, CAPTCHA solving capabilities, smart request throttling, distributed extraction across multiple servers.</p>
+                                <p><strong>No Rate Limits:</strong> Unlike Google Places API, CoreClaw has no rate limits. Extract as much data as you need with no API keys required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="section-inner">
+                    <h2>Ready to Extract Google Maps Data?</h2>
+                    <p>Join 10,000+ businesses using CoreClaw to power their lead generation, market research, and competitive analysis.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-white">Start Free Trial</a>
+                        <a href="#" class="btn btn-outline-white">View Pricing</a>
+                        <a href="#" class="btn btn-outline-white">Contact Sales</a>
+                    </div>
+                    <p class="hero-note">✓ No credit card required ✓ 500 free records</p>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; 2026 CoreClaw. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
