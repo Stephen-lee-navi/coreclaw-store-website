@@ -655,6 +655,40 @@
             </div>
         </div>
     </section>
+    <!-- Code Demo Section -->
+    <section class="section" style="background: var(--color-neutral-background-muted);">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">谷歌数据抓取演示</h2>
+                <p class="section-subtitle">专为开发者开发，输出结构化、可分析的数据，方便快速接入你的工作流</p>
+            </div>
+            <div style="max-width: 90rem; margin: 0 auto;">
+                <div style="background: #1e1e1e; border-radius: 12px; padding: 2.4rem; overflow-x: auto;">
+                    <pre style="margin: 0; color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; font-size: 1.4rem; line-height: 2rem;"><code style="color: #d4d4d4;"><span style="color: #6a9955;"># 示例代码：使用 CoreClaw API 抓取 Google Maps 数据</span>
+<span style="color: #c586c0;">import</span> requests
+
+<span style="color: #9cdcfe;">api_key</span> = <span style="color: #ce9178;">"your_api_key_here"</span>
+<span style="color: #9cdcfe;">url</span> = <span style="color: #ce9178;">"https://api.coreclaw.com/v1/google-maps/scrape"</span>
+
+<span style="color: #9cdcfe;">payload</span> = {
+    <span style="color: #ce9178;">"keyword"</span>: <span style="color: #ce9178;">"restaurant"</span>,
+    <span style="color: #ce9178;">"location"</span>: <span style="color: #ce9178;">"New York, NY"</span>,
+    <span style="color: #ce9178;">"limit"</span>: <span style="color: #b5cea8;">100</span>
+}
+
+<span style="color: #9cdcfe;">headers</span> = {
+    <span style="color: #ce9178;">"Authorization"</span>: <span style="color: #ce9178;">f"Bearer </span>{<span style="color: #9cdcfe;">api_key</span>}<span style="color: #ce9178;">"</span>,
+    <span style="color: #ce9178;">"Content-Type"</span>: <span style="color: #ce9178;">"application/json"</span>
+}
+
+<span style="color: #9cdcfe;">response</span> = requests.<span style="color: #dcdcaa;">post</span>(<span style="color: #9cdcfe;">url</span>, <span style="color: #9cdcfe;">json</span>=<span style="color: #9cdcfe;">payload</span>, <span style="color: #9cdcfe;">headers</span>=<span style="color: #9cdcfe;">headers</span>)
+<span style="color: #9cdcfe;">data</span> = <span style="color: #9cdcfe;">response</span>.<span style="color: #dcdcaa;">json</span>()
+
+<span style="color: #c586c0;">print</span>(<span style="color: #9cdcfe;">data</span>)</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Automation Section -->
     <section class="section" style="background: var(--color-neutral-background-muted);">
@@ -691,89 +725,60 @@
             <div class="section-header">
                 <h2 class="section-title">一次调用，轻松抓取Google数据</h2>
             </div>
-            <div class="use-cases-grid">
-                <div class="use-case-item">
-                    <h4>结构化输出</h4>
-                    <ul>
-                        <li>抓取到的数据可按清晰字段进行组织</li>
-                        <li>更方便接入数据库、分析系统或内部工具</li>
-                        <li>无需团队手动处理大量原始页面内容</li>
+            <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr)); gap: 2.4rem;">
+                <div class="feature-card" style="background: var(--color-neutral-background); border-radius: 16px; padding: 3.2rem; border: 1px solid var(--color-neutral-border); transition: all 0.3s ease;">
+                    <div class="feature-number" style="width: 5rem; height: 5rem; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">01</div>
+                    <h4 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-neutral-text);">结构化输出</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>抓取到的数据可按清晰字段进行组织</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>更方便接入数据库、分析系统或内部工具</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>无需团队手动处理大量原始页面内容</li>
                     </ul>
                 </div>
 
-                <div class="use-case-item">
-                    <h4>本地化采集</h4>
-                    <ul>
-                        <li>面向不同国家、地区、语言和搜索环境</li>
-                        <li>采集更贴近目标市场的 Google 数据</li>
-                        <li>获得更有参考价值的结果</li>
+                <div class="feature-card" style="background: var(--color-neutral-background); border-radius: 16px; padding: 3.2rem; border: 1px solid var(--color-neutral-border); transition: all 0.3s ease;">
+                    <div class="feature-number" style="width: 5rem; height: 5rem; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">02</div>
+                    <h4 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-neutral-text);">本地化采集</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>面向不同国家、地区、语言和搜索环境</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>采集更贴近目标市场的 Google 数据</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>获得更有参考价值的结果</li>
                     </ul>
                 </div>
 
-                <div class="use-case-item">
-                    <h4>覆盖多种 Google 页面类型</h4>
-                    <ul>
-                        <li>不仅支持普通搜索结果</li>
-                        <li>也支持地图、购物、趋势、评论等</li>
-                        <li>满足更多细分业务需求</li>
+                <div class="feature-card" style="background: var(--color-neutral-background); border-radius: 16px; padding: 3.2rem; border: 1px solid var(--color-neutral-border); transition: all 0.3s ease;">
+                    <div class="feature-number" style="width: 5rem; height: 5rem; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">03</div>
+                    <h4 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-neutral-text);">覆盖多种 Google 页面类型</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>不仅支持普通搜索结果</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>也支持地图、购物、趋势、评论等</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>满足更多细分业务需求</li>
                     </ul>
                 </div>
 
-                <div class="use-case-item">
-                    <h4>自动化集成</h4>
-                    <ul>
-                        <li>支持定时任务、批量采集</li>
-                        <li>监控系统和内容工作流</li>
-                        <li>更自然地把 Google 数据接入现有流程</li>
+                <div class="feature-card" style="background: var(--color-neutral-background); border-radius: 16px; padding: 3.2rem; border: 1px solid var(--color-neutral-border); transition: all 0.3s ease;">
+                    <div class="feature-number" style="width: 5rem; height: 5rem; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">04</div>
+                    <h4 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-neutral-text);">自动化集成</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>支持定时任务、批量采集</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>监控系统和内容工作流</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>更自然地把 Google 数据接入现有流程</li>
                     </ul>
                 </div>
 
-                <div class="use-case-item">
-                    <h4>可扩展性</h4>
-                    <ul>
-                        <li>从少量关键词测试开始</li>
-                        <li>到多地区、多类别、多任务并行采集</li>
-                        <li>支持持续型数据收集需求</li>
+                <div class="feature-card" style="background: var(--color-neutral-background); border-radius: 16px; padding: 3.2rem; border: 1px solid var(--color-neutral-border); transition: all 0.3s ease;">
+                    <div class="feature-number" style="width: 5rem; height: 5rem; background: linear-gradient(135deg, #4285f4 0%, #34a853 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; margin-bottom: 2rem;">05</div>
+                    <h4 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.2rem; color: var(--color-neutral-text);">可扩展性</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>从少量关键词测试开始</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>到多地区、多类别、多任务并行采集</li>
+                        <li style="font-size: 1.5rem; color: var(--color-neutral-text-muted); padding: 0.6rem 0; padding-left: 1.5rem; position: relative;"><span style="position: absolute; left: 0; color: #4285f4;">•</span>支持持续型数据收集需求</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Code Demo Section -->
-    <section class="section" style="background: var(--color-neutral-background-muted);">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">谷歌数据抓取演示</h2>
-                <p class="section-subtitle">专为开发者开发，输出结构化、可分析的数据，方便快速接入你的工作流</p>
-            </div>
-            <div style="max-width: 90rem; margin: 0 auto;">
-                <div style="background: #1e1e1e; border-radius: 12px; padding: 2.4rem; overflow-x: auto;">
-                    <pre style="margin: 0; color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; font-size: 1.4rem; line-height: 2rem;"><code style="color: #d4d4d4;"><span style="color: #6a9955;"># 示例代码：使用 CoreClaw API 抓取 Google Maps 数据</span>
-<span style="color: #c586c0;">import</span> requests
-
-<span style="color: #9cdcfe;">api_key</span> = <span style="color: #ce9178;">"your_api_key_here"</span>
-<span style="color: #9cdcfe;">url</span> = <span style="color: #ce9178;">"https://api.coreclaw.com/v1/google-maps/scrape"</span>
-
-<span style="color: #9cdcfe;">payload</span> = {
-    <span style="color: #ce9178;">"keyword"</span>: <span style="color: #ce9178;">"restaurant"</span>,
-    <span style="color: #ce9178;">"location"</span>: <span style="color: #ce9178;">"New York, NY"</span>,
-    <span style="color: #ce9178;">"limit"</span>: <span style="color: #b5cea8;">100</span>
-}
-
-<span style="color: #9cdcfe;">headers</span> = {
-    <span style="color: #ce9178;">"Authorization"</span>: <span style="color: #ce9178;">f"Bearer </span>{<span style="color: #9cdcfe;">api_key</span>}<span style="color: #ce9178;">"</span>,
-    <span style="color: #ce9178;">"Content-Type"</span>: <span style="color: #ce9178;">"application/json"</span>
-}
-
-<span style="color: #9cdcfe;">response</span> = requests.<span style="color: #dcdcaa;">post</span>(<span style="color: #9cdcfe;">url</span>, <span style="color: #9cdcfe;">json</span>=<span style="color: #9cdcfe;">payload</span>, <span style="color: #9cdcfe;">headers</span>=<span style="color: #9cdcfe;">headers</span>)
-<span style="color: #9cdcfe;">data</span> = <span style="color: #9cdcfe;">response</span>.<span style="color: #dcdcaa;">json</span>()
-
-<span style="color: #c586c0;">print</span>(<span style="color: #9cdcfe;">data</span>)</code></pre>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- FAQ Section -->
     <section class="faq-section" id="faq">
