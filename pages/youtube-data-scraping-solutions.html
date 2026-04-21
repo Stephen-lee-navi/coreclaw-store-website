@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube数据抓取工具 - CoreClaw</title>
+    <title>YouTube 数据抓取工具｜CoreClaw</title>
     <link rel="icon" type="image/png" href="../img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -165,6 +165,40 @@
             margin: 0 auto 4rem;
         }
 
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem 4rem;
+            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        .hero-feature::before {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: var(--color-primary-action);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
         .hero-cta {
             display: flex;
             gap: 1.6rem;
@@ -201,76 +235,18 @@
             margin: 0 auto;
         }
 
-        /* Tool Cards */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
-            gap: 2.4rem;
-        }
-
-        .tool-card {
-            background: var(--color-neutral-background);
-            border-radius: 12px;
-            padding: 2.4rem;
-            border: 1px solid var(--color-neutral-border);
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .tool-card:hover {
-            border-color: var(--color-primary-action);
-            box-shadow: var(--shadow-2);
-            transform: translateY(-2px);
-        }
-
-        .tool-card-header {
-            display: flex;
-            align-items: center;
-            gap: 1.6rem;
-            margin-bottom: 1.6rem;
-        }
-
-        .tool-card-icon {
-            width: 4.8rem;
-            height: 4.8rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.4rem;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .tool-card-title-wrap {
-            flex: 1;
-        }
-
-        .tool-card-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--color-neutral-text);
-            margin-bottom: 0.4rem;
-        }
-
-        .tool-card-desc {
-            font-size: 1.5rem;
-            line-height: 2.4rem;
-            color: var(--color-neutral-text-muted);
-        }
-
-        /* Features Section */
-        .features-section {
+        /* Tools Section */
+        .tools-section {
             background: var(--color-neutral-background-muted);
         }
 
-        .features-grid {
+        .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
             gap: 2.4rem;
         }
 
-        .feature-item {
+        .tool-card {
             background: var(--color-neutral-background);
             border-radius: 16px;
             padding: 3.2rem;
@@ -278,26 +254,73 @@
             transition: all 0.3s ease;
         }
 
-        .feature-item:hover {
+        .tool-card:hover {
             box-shadow: var(--shadow-2);
             border-color: var(--color-primary-action);
             transform: translateY(-2px);
         }
 
-        .feature-item h4 {
+        .tool-card h3 {
             font-size: 2rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
             color: var(--color-neutral-text);
         }
 
-        .feature-item p {
+        .tool-card p {
             font-size: 1.5rem;
             line-height: 2.4rem;
             color: var(--color-neutral-text-muted);
         }
 
+        /* Data Types Section */
+        .data-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .data-type-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .data-type-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .data-type-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .data-type-card li {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 0.8rem;
+        }
+
+        .data-type-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary-action);
+            font-weight: bold;
+        }
+
         /* Use Cases */
+        .use-cases-section {
+            background: var(--color-neutral-background-muted);
+        }
+
         .use-cases-grid {
             display: flex;
             flex-direction: column;
@@ -308,7 +331,7 @@
 
         .use-case-item {
             padding: 2.4rem;
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background);
             border-radius: 12px;
         }
 
@@ -339,9 +362,73 @@
             color: var(--color-primary-action);
         }
 
+        /* Code Demo Section */
+        .code-demo-section {
+            background: var(--color-neutral-background);
+        }
+
+        .code-demo-placeholder {
+            background: var(--color-neutral-background-muted);
+            border: 2px dashed var(--color-neutral-border);
+            border-radius: 16px;
+            padding: 6rem 2.4rem;
+            text-align: center;
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .code-demo-placeholder p {
+            font-size: 1.8rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 1.6rem;
+        }
+
+        .code-demo-placeholder .code-note {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* One Click Section */
+        .one-click-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .one-click-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .one-click-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+            transition: all 0.3s ease;
+        }
+
+        .one-click-card:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-primary-action);
+            transform: translateY(-2px);
+        }
+
+        .one-click-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
+        }
+
+        .one-click-card p {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+        }
+
         /* FAQ Section */
         .faq-section {
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background);
             padding: 6rem 2.4rem;
         }
 
@@ -351,7 +438,7 @@
         }
 
         .faq-item {
-            background: var(--color-neutral-background);
+            background: var(--color-neutral-background-muted);
             border-radius: 12px;
             margin-bottom: 1.6rem;
             overflow: hidden;
@@ -370,7 +457,7 @@
         }
 
         .faq-question:hover {
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background-subtle);
         }
 
         .faq-answer {
@@ -455,6 +542,12 @@
             color: var(--color-neutral-text-subtle);
         }
 
+        /* Section CTA Button */
+        .section-cta {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -467,13 +560,15 @@
                 line-height: 2.8rem;
             }
 
+            .hero-features {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 2rem;
+            }
+
             .section-title {
                 font-size: 3.2rem;
                 line-height: 4.2rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
             }
 
             .nav {
@@ -497,142 +592,174 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-inner">
-            <h1>YouTube数据抓取工具</h1>
-            <p class="hero-subtitle">来自全球最大内容平台的高价值数据</p>
-            <p class="hero-description">从 YouTube收集视频元数据、产品、评论、关键词和个人资料。非常适合内容研究、趋势发现和受众分析。</p>
+            <h1>YouTube 数据抓取工具</h1>
+            <p class="hero-subtitle">来自全球大型视频平台的高价值内容数据</p>
+            <p class="hero-description">围绕 YouTube 视频、评论、频道、关键词与搜索结果等公开数据场景，提供可直接使用的抓取工具。无论您要做内容研究、趋势发现、竞品监控还是受众分析，都可以快速发起任务并输出结构化结果。</p>
+            <div class="hero-features">
+                <span class="hero-feature">结构化数据输出（JSON & CSV）</span>
+                <span class="hero-feature">支持规模化与自动化任务</span>
+                <span class="hero-feature">99% 抓取成功率</span>
+                <span class="hero-feature">适用于视频研究、频道监测与趋势分析</span>
+            </div>
             <div class="hero-cta">
                 <button class="btn btn-primary">免费试用</button>
             </div>
         </div>
     </section>
 
-    <!-- Available Tools Section -->
-    <section class="section" id="tools">
+    <!-- Tools Section -->
+    <section class="section tools-section" id="tools">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">快速找到适合您的YouTube Scraper</h2>
+                <h2 class="section-title">满足不同需求的 YouTube 抓取工具</h2>
             </div>
             <div class="tools-grid">
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #ff0000; color: white;">V</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">YouTube视频数据抓取工具</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">我们的YouTube抓取工具在成功获取数据后，可让您提取核心视频详情（ID、标题、描述、频道名称、发布时间、观看次数、点赞数、评论数、时长）。您还可以将数据下载为多种结构化格式，以简化整理工作并将其集成到您的工作流程中。</p>
+                    <h3>YouTube 视频数据抓取工具</h3>
+                    <p>抓取公开视频的核心数据，包括视频 ID、标题、描述、频道名称、发布时间、观看次数、点赞数、评论数和时长等字段。适用于视频分析、内容监测和高表现视频研究。</p>
                 </div>
 
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #ff4444; color: white;">C</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">YouTube评论抓取工具--ID</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">使用我们的YouTube抓取工具，在成功抓取后提取视频评论详情：唯一评论ID、内容、点赞数、回复数、评论者用户名及频道URL、发布日期、视频URL、回复信息、作者评论状态、作者点赞数等。以结构化格式下载数据。</p>
+                    <h3>YouTube 评论抓取工具--ID</h3>
+                    <p>通过视频 ID 提取评论详情，包括评论 ID、评论内容、点赞数、回复数、评论者用户名、频道 URL、发布日期、视频 URL 和回复信息等。适用于用户反馈分析、评论趋势研究和舆情监测。</p>
                 </div>
 
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #cc0000; color: white;">P</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">YouTube个人资料抓取工具--URL</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">我们的YouTube抓取工具可通过URL提取个人资料详细信息（网址、唯一ID、横幅/头像图片链接、名称、订阅数、简介、视频数量、注册日期/国家、观看次数、第三方链接、频道ID、热门视频）。结果可下载为多种结构化格式，便于使用。</p>
+                    <h3>YouTube 个人资料抓取工具--URL</h3>
+                    <p>通过频道或个人资料 URL 抓取公开账号信息，包括主页链接、唯一 ID、头像与横幅图片、名称、订阅数、简介、视频数量、注册日期、国家、观看次数、第三方链接、频道 ID 和热门视频。适用于频道研究、达人筛选和账号监测。</p>
                 </div>
 
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #990000; color: white;">K</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">YouTube个人资料抓取工具--关键词</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">我们的YouTube抓取工具通过关键词提取个人资料详细信息（URL、唯一ID、横幅/头像图片链接、名称、订阅数、简介、视频数量、注册日期/国家、观看次数、第三方链接、频道ID、热门视频）。结果可下载为多种结构化格式，便于使用。</p>
+                    <h3>YouTube 个人资料抓取工具--关键词</h3>
+                    <p>通过关键词搜索并提取相关频道资料，包括频道 URL、唯一 ID、名称、简介、订阅数、视频数量、国家与热门视频等结构化数据。适用于频道发现、竞品账号研究和主题领域分析。</p>
                 </div>
+            </div>
+            <div class="section-cta">
+                <a href="#" class="btn btn-primary">还需要更专业的 Workers？</a>
             </div>
         </div>
     </section>
 
-    <!-- Advanced Tools Section -->
-    <section class="section features-section" id="features">
+    <!-- Data Types Section -->
+    <section class="section" id="datatypes">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">获取更专业的YouTube抓取工具</h2>
-                <p class="section-subtitle">如果您希望更高效地获取 YouTube平台中的特定数据，例如商家信息、区域信息或细分行业数据，可以选择更加专业的抓取工具获取方案，更精准地提取所需信息，让 Facebook数据的应用更加简单高效。</p>
+                <h2 class="section-title">YouTube 抓取工具可提取的数据类型</h2>
             </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h4>YouTube搜索结果抓取工具</h4>
-                    <p>批量采集 YouTube 搜索结果数据，帮助您分析关键词排名、热门视频分布和内容竞争格局</p>
+            <div class="data-types-grid">
+                <div class="data-type-card">
+                    <h3>视频与内容表现数据</h3>
+                    <ul>
+                        <li>视频标题与描述</li>
+                        <li>发布时间与视频时长</li>
+                        <li>观看次数、点赞数与评论数</li>
+                        <li>视频 ID、频道名称与视频链接</li>
+                    </ul>
                 </div>
 
-                <div class="feature-item">
-                    <h4>YouTube频道抓取工具</h4>
-                    <p>批量提取 YouTube 频道信息及视频列表，帮助您分析账号增长、内容结构和合作价值。</p>
+                <div class="data-type-card">
+                    <h3>评论与受众反馈数据</h3>
+                    <ul>
+                        <li>评论内容与评论时间</li>
+                        <li>评论点赞数与回复数</li>
+                        <li>评论者用户名与频道链接</li>
+                        <li>回复信息与互动上下文</li>
+                    </ul>
                 </div>
 
-                <div class="feature-item">
-                    <h4>YouTube 播放列表抓取工具</h4>
-                    <p>批量抓取 YouTube 播放列表中的视频信息，帮助您整理专题内容、课程合集和竞品内容结构。</p>
+                <div class="data-type-card">
+                    <h3>频道与搜索发现数据</h3>
+                    <ul>
+                        <li>频道名称、简介与订阅数</li>
+                        <li>频道 ID、主页链接与第三方链接</li>
+                        <li>视频数量、注册日期与国家信息</li>
+                        <li>热门视频与关键词发现结果</li>
+                    </ul>
                 </div>
-
-                <div class="feature-item">
-                    <h4>YouTube Shorts 抓取工具</h4>
-                    <p>自动采集 YouTube Shorts 数据，帮助您捕捉爆款短视频趋势、热门创意和高互动内容形式。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>YouTube 竞品频道追踪工具</h4>
-                    <p>持续监控竞品频道的视频更新、播放表现和用户反馈，更快优化内容策略和增长方向。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>YouTube直播流抓取工具</h4>
-                    <p>抓取 YouTube 直播与直播回放数据，便于您监测直播主题、互动表现和实时内容趋势。</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 4rem;">
-                <a href="#" class="btn btn-primary">您需要其他工具？</a>
             </div>
         </div>
     </section>
 
     <!-- Use Cases Section -->
-    <section class="section" id="usecases">
+    <section class="section use-cases-section" id="usecases">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">为什么要抓取YouTube数据？</h2>
+                <h2 class="section-title">为什么要抓取 YouTube 数据？</h2>
             </div>
             <div class="use-cases-grid">
                 <div class="use-case-item">
                     <h4>视频趋势发现</h4>
                     <ul>
-                        <li>追踪高表现的视频、Shorts 和搜索结果，帮助您发现正在上升的话题、受欢迎的内容形式以及更容易吸引播放的创作模式。借助 YouTube 数据，您可以更早识别趋势，围绕用户真实关注的内容制定视频策略。</li>
+                        <li>追踪高表现的视频、Shorts 和搜索结果，帮助您发现正在上升的话题、受欢迎的内容形式以及更容易吸引播放的创作模式。</li>
+                        <li>借助 YouTube 数据，您可以更早识别趋势，围绕用户真实关注的内容制定视频策略。</li>
                     </ul>
                 </div>
 
                 <div class="use-case-item">
                     <h4>用户反馈分析</h4>
                     <ul>
-                        <li>分析评论、回复和互动数据，了解观众对视频、产品或营销活动的真实反应。将用户讨论转化为可执行的洞察，帮助您优化内容方向、产品表达和社区运营效果。</li>
+                        <li>分析评论、回复和互动数据，了解观众对视频、产品或营销活动的真实反应。</li>
+                        <li>将用户讨论转化为可执行的洞察，帮助您优化内容方向、产品表达和社区运营效果。</li>
                     </ul>
                 </div>
 
                 <div class="use-case-item">
                     <h4>频道表现对标</h4>
                     <ul>
-                        <li>集中监控竞品频道的更新频率、视频表现和用户互动情况。通过横向对比不同频道的有效做法，帮助您发现内容空缺，并基于真实市场数据优化 YouTube 运营策略。</li>
+                        <li>集中监控竞品频道的更新频率、视频表现和用户互动情况。</li>
+                        <li>通过横向对比不同频道的有效做法，帮助您发现内容空缺，并基于真实市场数据优化 YouTube 运营策略。</li>
                     </ul>
                 </div>
 
                 <div class="use-case-item">
                     <h4>内容研究与利用</h4>
                     <ul>
-                        <li>提取视频元数据、字幕文本和播放列表结构，帮助您开展选题研究、SEO 规划和内容再利用。将 YouTube 数据转化为可复用资产，用于博客写作、社媒分发、产品教育和 AI 训练等场景。</li>
+                        <li>提取视频元数据、字幕文本和播放列表结构，帮助您开展选题研究、SEO 规划和内容再利用。</li>
+                        <li>将 YouTube 数据转化为可复用资产，用于博客写作、社媒分发、产品教育和 AI 训练等场景。</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Demo Section -->
+    <section class="section code-demo-section" id="demo">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">YouTube 数据抓取演示</h2>
+            </div>
+            <div class="code-demo-placeholder">
+                <p>此处放置代码实例</p>
+                <p class="code-note">预留板块，将此版块留出</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- One Click Section -->
+    <section class="section one-click-section" id="oneclick">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">一次调用，轻松抓取 YouTube 数据</h2>
+            </div>
+            <div class="one-click-grid">
+                <div class="one-click-card">
+                    <h3>结构化输出</h3>
+                    <p>抓取结果按清晰字段组织，更方便接入数据库、分析系统或内部工具，团队无需手动整理大量原始页面内容。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>多类型页面覆盖</h3>
+                    <p>支持视频页、评论区、频道主页、搜索结果与关键词发现等多类 YouTube 公开数据场景，满足更细分的数据需求。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>批量任务支持</h3>
+                    <p>无论是单视频、单频道还是批量关键词任务，都可以更高效地完成持续性数据采集。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>无缝集成</h3>
+                    <p>通过导出、API 调用和系统接入，将 YouTube 数据自然融入现有业务流程、营销工具或分析平台。</p>
                 </div>
             </div>
         </div>
@@ -647,7 +774,7 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>YouTubeScraper 可以抓取哪些数据？</span>
+                        <span>YouTube Scraper 可以抓取哪些数据？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -667,7 +794,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>YouTube Scraper 和 YouTube API 有什么区别</span>
+                        <span>YouTube Scraper 和 YouTube API 有什么区别？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -681,17 +808,17 @@
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        可以。Coreclaw提供的抓取工具可以直接输入视频链接、频道链接或关键词开始采集，而不是自己开发程序。
+                        可以。CoreClaw 提供的抓取工具可以直接输入视频链接、频道链接或关键词开始采集，而不需要自己开发程序。
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>使用 YouTube Scraper 需要登录 YouTube 吗？</span>
+                        <span>使用 YouTube Channel Scraper 需要登录 YouTube 吗？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        这取决于具体工具和目标数据类型。对于公开内容，通常不一定需要登录；但某些功能或访问场景，可能需要额外配置或认证信息。
+                        这取决于工具和目标数据类型。对于公开内容，通常不一定需要登录；但某些功能或访问场景，可能需要额外配置或认证信息。
                     </div>
                 </div>
 
@@ -701,32 +828,17 @@
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        YouTube Scraper支持 CSV、JSON等常见导出格式，方便导入数据库、BI 工具或内容工作流。
+                        YouTube Scraper 通常支持 CSV、JSON 等常见导出格式，方便导入数据库、BI 工具或内容工作流。
                     </div>
                 </div>
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>YouTubeScraper 一般支持哪些导出格式？</span>
+                        <span>YouTube 数据可以集成到我的系统或应用中吗？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        YouTubeScraper 支持 CSV、JSON等常见导出格式，方便接入 CRM、BI 工具、数据库或 AI 工作流。
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>YouTube数据可以集成到我的系统或应用中吗？</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        可以。<br>
-                        只要数据是结构化的（如JSON/CSV），就能实现：<br>
-                        ●接入CRM系统<br>
-                        ●接入数据仓库<br>
-                        ●用于自动化营销工具<br>
-                        ●构建内部数据平台
+                        可以。只要数据是结构化的（如 JSON / CSV），就能实现：接入 CRM 系统、接入数据仓库、用于自动化营销工具、构建内部数据平台。
                     </div>
                 </div>
 
@@ -736,7 +848,7 @@
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        合规性通常取决于抓取的数据是否公开、是否涉及个人信息、具体使用方式，以及是否遵守适用法律和平台规则。对于大多数用户来说，确保数据来源透明、用途合理，是使用 YouTube Scraper 时最重要的前提之一。
+                        合规性通常取决于抓取的数据是否公开、是否涉及个人信息、具体使用方式，以及是否遵守适用法律和平台规则。对于大多数用户来说，确保数据来源透明、用途合理，是使用 YouTube Scraper 时最重要的前提。
                     </div>
                 </div>
             </div>
@@ -747,7 +859,7 @@
     <section class="cta-section">
         <div class="section-inner">
             <h2>立即开始</h2>
-            <p>3分钟内即可完成YouTube数据抓取</p>
+            <p>3 分钟内即可完成 YouTube 数据抓取</p>
             <div class="cta-buttons">
                 <a href="#" class="btn btn-white">免费注册</a>
                 <a href="#tools" class="btn btn-outline-white">浏览 Workers</a>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reddit数据抓取工具 - CoreClaw</title>
+    <title>Reddit 数据抓取工具｜CoreClaw</title>
     <link rel="icon" type="image/png" href="../img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -165,6 +165,40 @@
             margin: 0 auto 4rem;
         }
 
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem 4rem;
+            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        .hero-feature::before {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: var(--color-primary-action);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
         .hero-cta {
             display: flex;
             gap: 1.6rem;
@@ -201,18 +235,18 @@
             margin: 0 auto;
         }
 
-        /* Features Section */
-        .features-section {
+        /* Tools Section */
+        .tools-section {
             background: var(--color-neutral-background-muted);
         }
 
-        .features-grid {
+        .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
             gap: 2.4rem;
         }
 
-        .feature-item {
+        .tool-card {
             background: var(--color-neutral-background);
             border-radius: 16px;
             padding: 3.2rem;
@@ -220,26 +254,73 @@
             transition: all 0.3s ease;
         }
 
-        .feature-item:hover {
+        .tool-card:hover {
             box-shadow: var(--shadow-2);
             border-color: var(--color-primary-action);
             transform: translateY(-2px);
         }
 
-        .feature-item h4 {
+        .tool-card h3 {
             font-size: 2rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
             color: var(--color-neutral-text);
         }
 
-        .feature-item p {
+        .tool-card p {
             font-size: 1.5rem;
             line-height: 2.4rem;
             color: var(--color-neutral-text-muted);
         }
 
+        /* Data Types Section */
+        .data-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .data-type-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .data-type-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .data-type-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .data-type-card li {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 0.8rem;
+        }
+
+        .data-type-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary-action);
+            font-weight: bold;
+        }
+
         /* Use Cases */
+        .use-cases-section {
+            background: var(--color-neutral-background-muted);
+        }
+
         .use-cases-grid {
             display: flex;
             flex-direction: column;
@@ -250,7 +331,7 @@
 
         .use-case-item {
             padding: 2.4rem;
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background);
             border-radius: 12px;
         }
 
@@ -281,9 +362,73 @@
             color: var(--color-primary-action);
         }
 
+        /* Code Demo Section */
+        .code-demo-section {
+            background: var(--color-neutral-background);
+        }
+
+        .code-demo-placeholder {
+            background: var(--color-neutral-background-muted);
+            border: 2px dashed var(--color-neutral-border);
+            border-radius: 16px;
+            padding: 6rem 2.4rem;
+            text-align: center;
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .code-demo-placeholder p {
+            font-size: 1.8rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 1.6rem;
+        }
+
+        .code-demo-placeholder .code-note {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* One Click Section */
+        .one-click-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .one-click-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .one-click-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+            transition: all 0.3s ease;
+        }
+
+        .one-click-card:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-primary-action);
+            transform: translateY(-2px);
+        }
+
+        .one-click-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
+        }
+
+        .one-click-card p {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+        }
+
         /* FAQ Section */
         .faq-section {
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background);
             padding: 6rem 2.4rem;
         }
 
@@ -293,7 +438,7 @@
         }
 
         .faq-item {
-            background: var(--color-neutral-background);
+            background: var(--color-neutral-background-muted);
             border-radius: 12px;
             margin-bottom: 1.6rem;
             overflow: hidden;
@@ -312,7 +457,7 @@
         }
 
         .faq-question:hover {
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background-subtle);
         }
 
         .faq-answer {
@@ -397,6 +542,12 @@
             color: var(--color-neutral-text-subtle);
         }
 
+        /* Section CTA Button */
+        .section-cta {
+            text-align: center;
+            margin-top: 4rem;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -407,6 +558,12 @@
             .hero-subtitle {
                 font-size: 1.8rem;
                 line-height: 2.8rem;
+            }
+
+            .hero-features {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 2rem;
             }
 
             .section-title {
@@ -435,71 +592,99 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-inner">
-            <h1>Reddit数据抓取工具</h1>
-            <p class="hero-subtitle">全球大型社区平台获取市场洞察</p>
-            <p class="hero-description">从 Reddit 收集帖子、评论、子版块、关键词和用户讨论数据。非常适合趋势研究、品牌监测、社区分析和真实用户反馈挖掘。</p>
+            <h1>Reddit 数据抓取工具</h1>
+            <p class="hero-subtitle">从全球大型社区平台获取真实市场洞察</p>
+            <p class="hero-description">围绕 Reddit 帖子、评论、子版块、关键词与用户讨论等公开数据场景，提供可直接使用的抓取工具。无论您要做趋势研究、品牌监测、社区分析还是真实用户反馈挖掘，都可以快速发起任务并输出结构化结果。</p>
+            <div class="hero-features">
+                <span class="hero-feature">结构化数据输出（JSON & CSV）</span>
+                <span class="hero-feature">支持规模化与自动化任务</span>
+                <span class="hero-feature">99% 抓取成功率</span>
+                <span class="hero-feature">适用于社区趋势研究与用户反馈分析</span>
+            </div>
             <div class="hero-cta">
                 <button class="btn btn-primary">免费试用</button>
             </div>
         </div>
     </section>
 
-    <!-- Advanced Tools Section -->
-    <section class="section features-section" id="features">
+    <!-- Tools Section -->
+    <section class="section tools-section" id="tools">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">获取专业的 Reddit 抓取工具</h2>
-                <p class="section-subtitle">如果您希望更高效地获取 Reddit 平台中的特定数据，例如社区讨论、品牌提及、产品反馈或细分话题内容，可以选择更加专业的抓取工具方案，更精准地提取所需信息，让 Reddit 数据的应用更加简单高效。</p>
+                <h2 class="section-title">满足不同需求的 Reddit 抓取工具</h2>
             </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h4>Reddit 子版块抓取工具</h4>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h3>Reddit 子版块抓取工具</h3>
                     <p>批量采集指定 subreddit 的帖子与基础信息，帮助您快速了解社区主题、活跃度和讨论方向。</p>
                 </div>
 
-                <div class="feature-item">
-                    <h4>Reddit 帖子抓取工具</h4>
+                <div class="tool-card">
+                    <h3>Reddit 帖子抓取工具</h3>
                     <p>高效抓取 Reddit 帖子标题、正文、热度和发布时间，便于您分析热门话题、内容趋势和社区偏好。</p>
                 </div>
 
-                <div class="feature-item">
-                    <h4>Reddit 评论抓取工具</h4>
+                <div class="tool-card">
+                    <h3>Reddit 评论抓取工具</h3>
                     <p>自动提取 Reddit 评论与回复层级数据，帮助您深入挖掘用户观点、争议点和高价值反馈。</p>
                 </div>
 
-                <div class="feature-item">
-                    <h4>Reddit 讨论串抓取工具</h4>
-                    <p>完整抓取单个 Reddit 讨论串的帖子与评论树，方便您进行舆情研究、问答分析和社区讨论复盘。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>Reddit 关键词监控抓取工具</h4>
-                    <p>持续监控指定关键词在 Reddit 上的出现情况，帮助您追踪行业趋势、品牌讨论和潜在风险信号。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>Reddit 品牌提及抓取工具</h4>
+                <div class="tool-card">
+                    <h3>Reddit 品牌提及抓取工具</h3>
                     <p>自动收集 Reddit 中与品牌相关的帖子和评论，帮助您监测口碑变化、品牌声量和用户认知。</p>
                 </div>
+            </div>
+            <div class="section-cta">
+                <a href="#" class="btn btn-primary">还需要更专业的 Workers？</a>
+            </div>
+        </div>
+    </section>
 
-                <div class="feature-item">
-                    <h4>Reddit 产品反馈抓取工具</h4>
-                    <p>批量抓取与产品相关的讨论、推荐和吐槽内容，帮助您提炼真实需求、优化产品定位和营销表达。</p>
+    <!-- Data Types Section -->
+    <section class="section" id="datatypes">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">Reddit 抓取工具可提取的数据类型</h2>
+            </div>
+            <div class="data-types-grid">
+                <div class="data-type-card">
+                    <h3>子版块与社区数据</h3>
+                    <ul>
+                        <li>subreddit 名称与基础信息</li>
+                        <li>社区主题与活跃度概览</li>
+                        <li>热门帖子与讨论方向</li>
+                        <li>社区层级的趋势线索</li>
+                    </ul>
                 </div>
 
-                <div class="feature-item">
-                    <h4>Reddit AMA / 问答抓取工具</h4>
-                    <p>提取 Reddit AMA 和问答帖中的核心问题与回答，帮助您整理用户关注点、行业观点和高价值素材。</p>
+                <div class="data-type-card">
+                    <h3>帖子、评论与互动数据</h3>
+                    <ul>
+                        <li>帖子标题与正文内容</li>
+                        <li>评论内容与回复层级</li>
+                        <li>发布时间与热度表现</li>
+                        <li>用户讨论与互动信号</li>
+                    </ul>
+                </div>
+
+                <div class="data-type-card">
+                    <h3>关键词与品牌讨论数据</h3>
+                    <ul>
+                        <li>关键词搜索结果</li>
+                        <li>品牌提及与相关讨论</li>
+                        <li>产品反馈与推荐内容</li>
+                        <li>AMA / 问答中的高价值观点</li>
+                    </ul>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 4rem;">
-                <a href="#" class="btn btn-primary">您需要其他工具？</a>
+            <div class="section-cta">
+                <a href="#" class="btn btn-primary">查看 Workers</a>
             </div>
         </div>
     </section>
 
     <!-- Use Cases Section -->
-    <section class="section" id="usecases">
+    <section class="section use-cases-section" id="usecases">
         <div class="section-inner">
             <div class="section-header">
                 <h2 class="section-title">为什么要抓取 Reddit 数据？</h2>
@@ -540,6 +725,49 @@
         </div>
     </section>
 
+    <!-- Code Demo Section -->
+    <section class="section code-demo-section" id="demo">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">Reddit 数据抓取演示</h2>
+            </div>
+            <div class="code-demo-placeholder">
+                <p>此处放置代码实例</p>
+                <p class="code-note">预留板块，将此版块留出</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- One Click Section -->
+    <section class="section one-click-section" id="oneclick">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">一次调用，轻松抓取 Reddit 数据</h2>
+            </div>
+            <div class="one-click-grid">
+                <div class="one-click-card">
+                    <h3>结构化输出</h3>
+                    <p>抓取结果按清晰字段组织，更方便接入数据库、分析系统或内部工具，团队无需手动整理大量原始讨论内容。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>多类型页面覆盖</h3>
+                    <p>支持 subreddit、帖子、评论、讨论串、关键词与品牌提及等多类 Reddit 公开数据场景，满足更细分的数据需求。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>批量任务支持</h3>
+                    <p>无论是单帖子、指定子版块还是持续关键词监控，都可以更高效地完成持续性数据收集。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>无缝集成</h3>
+                    <p>通过导出、API 调用和系统接入，将 Reddit 数据自然融入现有业务流程、分析平台或自动化工作流。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FAQ Section -->
     <section class="faq-section" id="faq">
         <div class="section-inner">
@@ -549,7 +777,7 @@
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Reddit抓取工具可以抓取哪些数据？</span>
+                        <span>Reddit 抓取工具可以抓取哪些数据？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -559,7 +787,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Reddit抓取工具最常见的用途是什么？</span>
+                        <span>Reddit 抓取工具最常见的用途是什么？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -569,7 +797,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Reddit数据抓取结果可以导出后直接使用吗？</span>
+                        <span>Reddit 数据抓取结果可以导出后直接使用吗？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -579,11 +807,11 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>不会写代码也能使用Reddit抓取工具吗？</span>
+                        <span>不会写代码也能使用 Reddit 抓取工具吗？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        可以。Coreclaw 提供的抓取工具可以直接输入 subreddit、帖子链接或关键词开始采集，而不需要自己开发程序。
+                        可以。CoreClaw 提供的抓取工具可以直接输入 subreddit、帖子链接或关键词开始采集，而不需要自己开发程序。
                     </div>
                 </div>
 
@@ -603,7 +831,7 @@
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        Reddit Scraper 支持 CSV、JSON 等常见导出格式，方便导入数据库、BI 工具或内部分析工作流。
+                        Reddit Scraper 通常支持 CSV、JSON 等常见导出格式，方便导入数据库、BI 工具或内部分析工作流。
                     </div>
                 </div>
 
@@ -623,7 +851,7 @@
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        合规性通常取决于抓取的数据是否公开、是否涉及个人信息、具体使用方式，以及是否遵守适用法律和平台规则。对于大多数用户来说，确保数据来源透明、用途合理，是使用Reddit抓取工具时最重要的前提之一。
+                        合规性通常取决于抓取的数据是否公开、是否涉及个人信息、具体使用方式，以及是否遵守适用法律和平台规则。对于大多数用户来说，确保数据来源透明、用途合理，是使用 Reddit 抓取工具时最重要的前提之一。
                     </div>
                 </div>
 
@@ -644,10 +872,10 @@
     <section class="cta-section">
         <div class="section-inner">
             <h2>立即开始</h2>
-            <p>3分钟内即可完成 Reddit 数据抓取</p>
+            <p>3 分钟内即可完成 Reddit 数据抓取</p>
             <div class="cta-buttons">
                 <a href="#" class="btn btn-white">免费注册</a>
-                <a href="#features" class="btn btn-outline-white">浏览 Workers</a>
+                <a href="#tools" class="btn btn-outline-white">浏览 Workers</a>
             </div>
         </div>
     </section>

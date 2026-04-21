@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok数据抓取工具 - CoreClaw</title>
+    <title>TikTok 数据抓取工具｜CoreClaw</title>
     <link rel="icon" type="image/png" href="../img/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -152,18 +152,57 @@
         .hero-subtitle {
             font-size: 2.4rem;
             line-height: 3.6rem;
+            color: var(--color-primary-action);
+            font-weight: 500;
+            margin-bottom: 2.4rem;
+        }
+
+        .hero-description {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
             color: var(--color-neutral-text-muted);
+            max-width: 70rem;
+            margin: 0 auto 4rem;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem 4rem;
             margin-bottom: 4rem;
             max-width: 80rem;
             margin-left: auto;
             margin-right: auto;
         }
 
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        .hero-feature::before {
+            content: "✓";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background: var(--color-primary-action);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
         .hero-cta {
             display: flex;
             gap: 1.6rem;
             justify-content: center;
-            margin-bottom: 4rem;
         }
 
         /* Section */
@@ -192,78 +231,22 @@
             font-size: 2rem;
             line-height: 3rem;
             color: var(--color-neutral-text-muted);
+            max-width: 80rem;
+            margin: 0 auto;
         }
 
-        /* Tool Cards */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
-            gap: 2.4rem;
-        }
-
-        .tool-card {
-            background: var(--color-neutral-background);
-            border-radius: 12px;
-            padding: 2.4rem;
-            border: 1px solid var(--color-neutral-border);
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .tool-card:hover {
-            border-color: var(--color-primary-action);
-            box-shadow: var(--shadow-2);
-            transform: translateY(-2px);
-        }
-
-        .tool-card-header {
-            display: flex;
-            align-items: center;
-            gap: 1.6rem;
-            margin-bottom: 1.6rem;
-        }
-
-        .tool-card-icon {
-            width: 4.8rem;
-            height: 4.8rem;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.4rem;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .tool-card-title-wrap {
-            flex: 1;
-        }
-
-        .tool-card-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--color-neutral-text);
-            margin-bottom: 0.4rem;
-        }
-
-        .tool-card-desc {
-            font-size: 1.5rem;
-            line-height: 2.4rem;
-            color: var(--color-neutral-text-muted);
-        }
-
-        /* Features Section */
-        .features-section {
+        /* Tools Section */
+        .tools-section {
             background: var(--color-neutral-background-muted);
         }
 
-        .features-grid {
+        .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
             gap: 2.4rem;
         }
 
-        .feature-item {
+        .tool-card {
             background: var(--color-neutral-background);
             border-radius: 16px;
             padding: 3.2rem;
@@ -271,26 +254,73 @@
             transition: all 0.3s ease;
         }
 
-        .feature-item:hover {
+        .tool-card:hover {
             box-shadow: var(--shadow-2);
             border-color: var(--color-primary-action);
             transform: translateY(-2px);
         }
 
-        .feature-item h4 {
+        .tool-card h3 {
             font-size: 2rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
             color: var(--color-neutral-text);
         }
 
-        .feature-item p {
+        .tool-card p {
             font-size: 1.5rem;
             line-height: 2.4rem;
             color: var(--color-neutral-text-muted);
         }
 
+        /* Data Types Section */
+        .data-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .data-type-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .data-type-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .data-type-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .data-type-card li {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+            padding-left: 2rem;
+            position: relative;
+            margin-bottom: 0.8rem;
+        }
+
+        .data-type-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary-action);
+            font-weight: bold;
+        }
+
         /* Use Cases */
+        .use-cases-section {
+            background: var(--color-neutral-background-muted);
+        }
+
         .use-cases-grid {
             display: flex;
             flex-direction: column;
@@ -301,7 +331,7 @@
 
         .use-case-item {
             padding: 2.4rem;
-            background: var(--color-neutral-background-muted);
+            background: var(--color-neutral-background);
             border-radius: 12px;
         }
 
@@ -330,6 +360,125 @@
             position: absolute;
             left: 0;
             color: var(--color-primary-action);
+        }
+
+        /* Code Demo Section */
+        .code-demo-section {
+            background: var(--color-neutral-background);
+        }
+
+        .code-demo-placeholder {
+            background: var(--color-neutral-background-muted);
+            border: 2px dashed var(--color-neutral-border);
+            border-radius: 16px;
+            padding: 6rem 2.4rem;
+            text-align: center;
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .code-demo-placeholder p {
+            font-size: 1.8rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 1.6rem;
+        }
+
+        .code-demo-placeholder .code-note {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* One Click Section */
+        .one-click-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .one-click-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .one-click-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+            transition: all 0.3s ease;
+        }
+
+        .one-click-card:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-primary-action);
+            transform: translateY(-2px);
+        }
+
+        .one-click-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
+        }
+
+        .one-click-card p {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--color-neutral-background);
+            padding: 6rem 2.4rem;
+        }
+
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-neutral-background-muted);
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-neutral-background-subtle);
+        }
+
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--color-neutral-text-muted);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
         }
 
         /* CTA Section */
@@ -380,61 +529,6 @@
             text-decoration: none;
         }
 
-        /* FAQ Section */
-        .faq-section {
-            background: var(--color-neutral-background-muted);
-            padding: 6rem 2.4rem;
-        }
-
-        .faq-list {
-            max-width: 90rem;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            background: var(--color-neutral-background);
-            border-radius: 12px;
-            margin-bottom: 1.6rem;
-            overflow: hidden;
-            border: 1px solid var(--color-neutral-border);
-        }
-
-        .faq-question {
-            padding: 2rem 2.4rem;
-            font-size: 1.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
-        }
-
-        .faq-question:hover {
-            background: var(--color-neutral-background-muted);
-        }
-
-        .faq-answer {
-            padding: 0 2.4rem 2rem;
-            font-size: 1.5rem;
-            line-height: 1.8;
-            color: var(--color-neutral-text-muted);
-            display: none;
-        }
-
-        .faq-item.active .faq-answer {
-            display: block;
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(180deg);
-        }
-
-        .faq-toggle {
-            transition: transform 0.3s;
-            font-size: 1.2rem;
-        }
-
         /* Footer */
         .footer {
             background: var(--color-neutral-background-muted);
@@ -446,6 +540,12 @@
         .footer p {
             font-size: 1.4rem;
             color: var(--color-neutral-text-subtle);
+        }
+
+        /* Section CTA Button */
+        .section-cta {
+            text-align: center;
+            margin-top: 4rem;
         }
 
         /* Responsive */
@@ -460,13 +560,15 @@
                 line-height: 2.8rem;
             }
 
+            .hero-features {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0 2rem;
+            }
+
             .section-title {
                 font-size: 3.2rem;
                 line-height: 4.2rem;
-            }
-
-            .tools-grid {
-                grid-template-columns: 1fr;
             }
 
             .nav {
@@ -490,106 +592,92 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-inner">
-            <h1>TikTok数据抓取工具</h1>
-            <p class="hero-subtitle">实时追踪趋势和内容传播</p>
-            <p class="hero-description">从 TikTok抓取帖子、用户主页、评论和互动指标。专为趋势监测、网红研究和病毒式内容分析而打造。</p>
+            <h1>TikTok 数据抓取工具</h1>
+            <p class="hero-subtitle">实时追踪趋势与内容传播</p>
+            <p class="hero-description">围绕 TikTok 视频、评论、账号、标签、搜索结果与热门趋势等公开数据场景，提供可直接使用的抓取工具。无论您要做爆款内容研究、达人筛选、竞品分析还是用户反馈洞察，都可以快速发起任务并输出结构化结果。</p>
+            <div class="hero-features">
+                <span class="hero-feature">结构化数据输出（JSON & CSV）</span>
+                <span class="hero-feature">支持规模化与自动化任务</span>
+                <span class="hero-feature">99% 抓取成功率</span>
+                <span class="hero-feature">支持 API 接入与内部工作流</span>
+                <span class="hero-feature">适用于趋势监测、达人筛选与内容表现分析</span>
+            </div>
             <div class="hero-cta">
                 <button class="btn btn-primary">免费试用</button>
             </div>
         </div>
     </section>
 
-    <!-- Quick Tools Section -->
-    <section class="section" id="tools">
+    <!-- Tools Section -->
+    <section class="section tools-section" id="tools">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">快速找到适合您的TikTok抓取工具</h2>
+                <h2 class="section-title">满足不同需求的 TikTok 抓取工具</h2>
             </div>
             <div class="tools-grid">
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #000000; color: white;">T</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">TikTok Shop抓取工具--URL</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">TikTok Shop信息抓取工具通过URL获取TikTok店铺信息、产品及销售数据，并将其转换为结构化商业智能以供分析。输入基本信息即可访问店铺详情、产品信息、定价、销售数据及评价，从而支持数据驱动的店铺运营和产品策略制定。</p>
+                    <h3>TikTok Shop 抓取工具--URL</h3>
+                    <p>通过 URL 获取 TikTok Shop 店铺信息、产品数据、价格、销量和评价等关键字段，并将其转化为结构化商业数据。适用于店铺分析、商品研究与销售策略优化。</p>
                 </div>
 
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #000000; color: white;">T</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">TikTok用户主页抓取工具--URL</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">TikTok 主页信息采集工具可通过 URL 提取创作者主页及账号数据，并将其转化为结构化信息以供深度分析。只需输入链接，即可获取完整数据：涵盖简介、粉丝数、内容表现、互动指标等，从而助力精准的商业营销决策。</p>
+                    <h3>TikTok 用户主页抓取工具--URL</h3>
+                    <p>通过账号主页 URL 抓取创作者主页及账号数据，包括简介、粉丝数、内容表现和互动指标等公开信息。适用于达人评估、账号监测和主页研究。</p>
                 </div>
 
                 <div class="tool-card">
-                    <div class="tool-card-header">
-                        <div class="tool-card-icon" style="background: #000000; color: white;">T</div>
-                        <div class="tool-card-title-wrap">
-                            <div class="tool-card-title">TikTok帖子抓取工具--个人资料URL</div>
-                        </div>
-                    </div>
-                    <p class="tool-card-desc">TikTok帖子信息抓取工具能够高效获取TikTok平台指定帖子的完整数据，并将其转化为可深度分析的结构化信息。用户只需输入简单信息，即可快速获取包括视频内容、互动指标、传播效果、音轨信息在内的多维数据。该工具都能帮助企业为内容创作和营销决策提供可靠的数据支撑。</p>
+                    <h3>TikTok 帖子抓取工具--个人资料 URL</h3>
+                    <p>围绕指定账号或内容入口抓取视频数据，提取视频内容、互动指标、传播表现与音轨信息等结构化字段。适用于内容分析、竞品监控与营销决策支持。</p>
                 </div>
+            </div>
+            <div class="section-cta">
+                <a href="#" class="btn btn-primary">还需要更专业的 Workers？</a>
             </div>
         </div>
     </section>
 
-    <!-- Advanced Tools Section -->
-    <section class="section features-section" id="features">
+    <!-- Data Types Section -->
+    <section class="section" id="datatypes">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">获取更专业的 TikTok 抓取工具</h2>
-                <p class="section-subtitle">如果您希望更高效地获取 TikTok 平台中的特定数据，例如视频内容、评论反馈、账号资料、标签趋势或达人信息，可以选择更加专业的抓取工具方案，更精准地提取所需信息，让 TikTok 数据的应用更加简单高效。</p>
+                <h2 class="section-title">TikTok 抓取工具可提取的数据类型</h2>
             </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h4>TikTok 视频抓取工具</h4>
-                    <p>批量采集 TikTok 视频标题、描述、播放量、点赞数、评论数、分享数和发布时间，帮助您快速分析内容表现和热门趋势。</p>
+            <div class="data-types-grid">
+                <div class="data-type-card">
+                    <h3>视频与内容表现数据</h3>
+                    <ul>
+                        <li>视频标题与描述</li>
+                        <li>播放量、点赞数、评论数与分享数</li>
+                        <li>发布时间与视频链接</li>
+                        <li>音轨、封面与内容表现指标</li>
+                    </ul>
                 </div>
 
-                <div class="feature-item">
-                    <h4>TikTok 评论抓取工具</h4>
-                    <p>自动提取 TikTok 评论内容、回复信息和互动数据，帮助您洞察用户反馈、情绪变化和真实关注点。</p>
+                <div class="data-type-card">
+                    <h3>评论与用户反馈数据</h3>
+                    <ul>
+                        <li>评论内容与回复信息</li>
+                        <li>评论时间与互动数据</li>
+                        <li>用户反馈与情绪线索</li>
+                        <li>热门讨论与高频关注点</li>
+                    </ul>
                 </div>
 
-                <div class="feature-item">
-                    <h4>TikTok 账号抓取工具</h4>
-                    <p>批量抓取 TikTok 账号资料、粉丝数据、视频列表和互动表现，帮助您评估账号价值、增长趋势和达人合作潜力。</p>
+                <div class="data-type-card">
+                    <h3>账号、标签与趋势数据</h3>
+                    <ul>
+                        <li>账号资料与粉丝数据</li>
+                        <li>视频列表与互动表现</li>
+                        <li>话题标签与搜索结果</li>
+                        <li>热门趋势与内容分布</li>
+                    </ul>
                 </div>
-
-                <div class="feature-item">
-                    <h4>TikTok 标签抓取工具</h4>
-                    <p>采集 TikTok 话题标签下的热门内容和互动数据，帮助您发现趋势话题、热门挑战和高潜力内容方向。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>TikTok 搜索结果抓取工具</h4>
-                    <p>批量抓取 TikTok 搜索结果页数据，帮助您分析关键词热度、内容分布和竞品曝光情况。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>TikTok 热门趋势抓取工具</h4>
-                    <p>持续追踪 TikTok 平台上的热门视频、流行话题和趋势变化，帮助您更快捕捉爆款内容机会。</p>
-                </div>
-
-                <div class="feature-item">
-                    <h4>TikTok 竞品账号追踪工具</h4>
-                    <p>持续监控竞品账号的视频更新、互动表现和内容方向，帮助您及时调整运营策略和创意布局。</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 4rem;">
-                <a href="#" class="btn btn-primary">您需要其他工具？</a>
             </div>
         </div>
     </section>
 
     <!-- Use Cases Section -->
-    <section class="section" id="usecases">
+    <section class="section use-cases-section" id="usecases">
         <div class="section-inner">
             <div class="section-header">
                 <h2 class="section-title">为什么要抓取 TikTok 数据？</h2>
@@ -612,7 +700,7 @@
                 </div>
 
                 <div class="use-case-item">
-                    <h4>KOL营销筛选</h4>
+                    <h4>KOL 营销筛选</h4>
                     <ul>
                         <li>系统收集账号资料、粉丝表现和内容互动情况，帮助您更准确地评估达人匹配度。</li>
                         <li>通过数据化方式筛选合作对象，能够降低试错成本并提高达人投放效率。</li>
@@ -625,6 +713,49 @@
                         <li>持续监控竞品账号、热门视频和标签布局，帮助您了解同行的内容策略和增长方向。</li>
                         <li>通过横向对比不同账号的表现，您可以更快发现内容空缺和差异化机会。</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Demo Section -->
+    <section class="section code-demo-section" id="demo">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">TikTok 数据抓取演示</h2>
+            </div>
+            <div class="code-demo-placeholder">
+                <p>此处放置代码实例</p>
+                <p class="code-note">预留板块，将此版块留出</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- One Click Section -->
+    <section class="section one-click-section" id="oneclick">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">一次调用，轻松抓取 TikTok 数据</h2>
+            </div>
+            <div class="one-click-grid">
+                <div class="one-click-card">
+                    <h3>结构化输出</h3>
+                    <p>抓取结果按清晰字段组织，更方便接入数据库、分析系统或内部工具，团队无需手动整理大量原始页面内容。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>多类型页面覆盖</h3>
+                    <p>支持视频页、评论区、账号主页、标签页、搜索结果与 TikTok Shop 等多类公开数据场景，满足更细分的数据需求。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>批量任务支持</h3>
+                    <p>无论是单条链接采集还是批量账号、批量视频任务运行，都可以更高效地完成持续性数据收集。</p>
+                </div>
+
+                <div class="one-click-card">
+                    <h3>无缝集成</h3>
+                    <p>通过导出、API 调用和系统接入，将 TikTok 数据自然融入现有业务流程、营销工具或分析平台。</p>
                 </div>
             </div>
         </div>
@@ -649,11 +780,11 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>TikTok 数据最适合用在哪些业务场景中？</span>
+                        <span>TikTok Scraper最适合用在哪些业务场景中？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
-                        TikTok 数据非常适合用于短视频趋势研究、达人营销筛选、竞品内容分析、评论反馈收集、热门标签追踪，以及围绕内容传播效果进行研究和优化。
+                        非常适合用于短视频趋势研究、达人营销筛选、竞品内容分析、评论反馈收集、热门标签追踪，以及围绕内容传播效果进行研究和优化。
                     </div>
                 </div>
 
@@ -669,7 +800,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>TikTok 评论数据为什么很重要？</span>
+                        <span>TikTok Comment Scraper为什么很重要？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -679,7 +810,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>TikTok抓取工具可以帮助我找达人吗？</span>
+                        <span>TikTok Scraper可以帮助我找达人吗？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -689,7 +820,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>TikTok 标签抓取适合做什么？</span>
+                        <span>TikTok Video Scraper适合做什么？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -719,7 +850,7 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>TikTok抓取工具支持哪些导出格式？</span>
+                        <span>TikTok Profile Scraper支持哪些导出格式？</span>
                         <span class="faq-toggle">▼</span>
                     </div>
                     <div class="faq-answer">
@@ -744,7 +875,7 @@
     <section class="cta-section">
         <div class="section-inner">
             <h2>立即开始</h2>
-            <p>3分钟内即可完成 TikTok 数据抓取</p>
+            <p>3 分钟内即可完成 TikTok 数据抓取</p>
             <div class="cta-buttons">
                 <a href="#" class="btn btn-white">免费注册</a>
                 <a href="#tools" class="btn btn-outline-white">浏览 Workers</a>
